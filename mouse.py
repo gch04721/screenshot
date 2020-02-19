@@ -1,37 +1,33 @@
 from pynput import mouse
-import tkinter as tk
 
-root = tk.Tk()
-canvas = tk.Canvas(root, width =110, height=110)
+class MouseListener:
+    def __init__(self):
+        self.x1 = 0
+        self.y1 = 0
+        self.x2 = 0
+        self.y2 = 0
 
-def on_move(x, y):
-    print('pointer moved to {}'.format((x,y)))
+        self.width=0
+        self.height=0
 
-def on_click(x,y, button, pressed):
-    chk = True
-    print('mouse clicked at {}'.format((x,y)))
-    x1, y1, x2, y2 = 0,0,0,0
-    if mouse.Button.left == button:
-        if pressed:
-            x1, y1 = x, y
-            chk = True
-        if not pressed:
-            x2, y2 = x,y
-            root.quit()
-            canvas = tk.Canvas(root, width = abs(x1-x2), height = abs(y1-y2))
-            canvas.master.overrideredirect(True)
-            canvas.create_rectangle(x1, y1, abs(x1 - x2), abs(y1- y2), fill = 'red')
-            
-            canvas.pack()
-            canvas.mainloop()
-        print('left clicked')
+        self.clicked=False
 
-    if mouse.Button.right == button:
-        root.destroy()
-        return False
-        
-listener = mouse.Listener(on_move = on_move, on_click = on_click)
-listener.start()
+    @staticmethod 
+    def on_click(x, y, button, pressed):  
+        if button == mouse.Button.left:
+            clicked=pressed
+            if clicked:
+                x1 = x
+                y1 = y
+                print(x1, y1)
+        else:
+            return False
 
-canvas.pack()
-canvas.mainloop()
+    @staticmethod
+    def on_move(x, y):
+        if clicked:
+            print(x,y)
+
+    def listenerJoin(self):
+        with mouse.Listener(on_click=self.on_click, on_move=self.on_move) as listener:
+            listener.join()
