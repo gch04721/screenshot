@@ -1,0 +1,7 @@
+*.zip
+__pycahche__
+./build
+./dist
+*.exe
+*.png
+*.spec

@@ -6,14 +6,9 @@ class ACapture():
 
     def __main__(self):
         self.mainUI.mainloop()
-
-    def getPosition(self):
-        pass
+        
 
 if __name__ == '__main__':
     mainClass = ACapture()
 
     mainClass.__main__()
-
-
-    
